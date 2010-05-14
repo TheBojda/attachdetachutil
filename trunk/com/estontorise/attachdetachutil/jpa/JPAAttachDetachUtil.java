@@ -2,7 +2,6 @@ package com.estontorise.attachdetachutil.jpa;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,8 +22,9 @@ public class JPAAttachDetachUtil implements AttachDetachUtil {
 		this.entityManager = entityManager;
 	}
 
-	public Object detach(Object o) throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		return detachCopy(o, new HashMap<Object, Object>());
+	@SuppressWarnings("unchecked")
+	public <T> T detach(T o) throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		return (T)detachCopy(o, new HashMap<Object, Object>());
 	}
 	
 	private boolean isPrimitive(Class<?> cls) {
@@ -95,8 +95,9 @@ public class JPAAttachDetachUtil implements AttachDetachUtil {
 		return newInstance;
 	}
 	
-	public Object attach(Object o) throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		return attachCopy(o, new HashMap<Object, Object>());
+	@SuppressWarnings("unchecked")
+	public <T> T attach(T o) throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		return (T)attachCopy(o, new HashMap<Object, Object>());
 	}
 
 	private boolean isIdMethod(Method m) {
